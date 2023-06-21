@@ -4,6 +4,8 @@ var isDraggingMerah = false;
 var isDraggingBiru = false;
 var startOffsetXMerah, startOffsetYMerah;
 var startOffsetXBiru, startOffsetYBiru;
+var border = document.getElementById("border");
+var borderRect = border.getBoundingClientRect();
 
 // Event listener for mouse movements on laptops/desktops - Kotak Merah
 kotakMerah.addEventListener("mousedown", function(e) {
@@ -15,8 +17,12 @@ kotakMerah.addEventListener("mousedown", function(e) {
 
 document.addEventListener("mousemove", function(e) {
   if (isDraggingMerah) {
-    var newX = e.clientX - startOffsetXMerah;
-    var newY = e.clientY - startOffsetYMerah;
+    var newX = e.clientX - startOffsetXMerah - borderRect.left;
+    var newY = e.clientY - startOffsetYMerah - borderRect.top;
+
+    newX = Math.max(0, Math.min(newX, borderRect.width - kotakMerah.offsetWidth));
+    newY = Math.max(0, Math.min(newY, borderRect.height - kotakMerah.offsetHeight));
+
     kotakMerah.style.left = newX + "px";
     kotakMerah.style.top = newY + "px";
 
@@ -42,8 +48,12 @@ kotakBiru.addEventListener("mousedown", function(e) {
 
 document.addEventListener("mousemove", function(e) {
   if (isDraggingBiru) {
-    var newX = e.clientX - startOffsetXBiru;
-    var newY = e.clientY - startOffsetYBiru;
+    var newX = e.clientX - startOffsetXBiru - borderRect.left;
+    var newY = e.clientY - startOffsetYBiru - borderRect.top;
+
+    newX = Math.max(0, Math.min(newX, borderRect.width - kotakBiru.offsetWidth));
+    newY = Math.max(0, Math.min(newY, borderRect.height - kotakBiru.offsetHeight));
+
     kotakBiru.style.left = newX + "px";
     kotakBiru.style.top = newY + "px";
 
@@ -69,8 +79,12 @@ kotakMerah.addEventListener("touchstart", function(e) {
 
 document.addEventListener("touchmove", function(e) {
   if (isDraggingMerah) {
-    var newX = e.touches[0].clientX - startOffsetXMerah;
-    var newY = e.touches[0].clientY - startOffsetYMerah;
+    var newX = e.touches[0].clientX - startOffsetXMerah - borderRect.left;
+    var newY = e.touches[0].clientY - startOffsetYMerah - borderRect.top;
+
+    newX = Math.max(0, Math.min(newX, borderRect.width - kotakMerah.offsetWidth));
+    newY = Math.max(0, Math.min(newY, borderRect.height - kotakMerah.offsetHeight));
+
     kotakMerah.style.left = newX + "px";
     kotakMerah.style.top = newY + "px";
 
@@ -96,8 +110,12 @@ kotakBiru.addEventListener("touchstart", function(e) {
 
 document.addEventListener("touchmove", function(e) {
   if (isDraggingBiru) {
-    var newX = e.touches[0].clientX - startOffsetXBiru;
-    var newY = e.touches[0].clientY - startOffsetYBiru;
+    var newX = e.touches[0].clientX - startOffsetXBiru - borderRect.left;
+    var newY = e.touches[0].clientY - startOffsetYBiru - borderRect.top;
+
+    newX = Math.max(0, Math.min(newX, borderRect.width - kotakBiru.offsetWidth));
+    newY = Math.max(0, Math.min(newY, borderRect.height - kotakBiru.offsetHeight));
+
     kotakBiru.style.left = newX + "px";
     kotakBiru.style.top = newY + "px";
 

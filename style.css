@@ -13,3 +13,11 @@
     background-color: blue;
   }
   
+  #border {
+    position: relative;
+    width: 100%;
+    height: 100vh; /* Menggunakan 100% tinggi viewport */
+    border: 1px solid black;
+    overflow: hidden;
+  }
+  
