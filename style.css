@@ -1,8 +1,15 @@
-#kotak {
+.box {
     position: absolute;
     width: 100px;
     height: 100px;
-    background-color: red;
     cursor: move;
+  }
+  
+  #kotak-merah {
+    background-color: red;
+  }
+  
+  #kotak-biru {
+    background-color: blue;
   }
   
