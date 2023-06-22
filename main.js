@@ -16,8 +16,8 @@ function updateBorderRect() {
 function handleMouseDownMerah(e) {
   e.preventDefault();
   isDraggingMerah = true;
-  startOffsetXMerah = e.clientX - kotakMerah.offsetLeft;
-  startOffsetYMerah = e.clientY - kotakMerah.offsetTop;
+  startOffsetXMerah = e.clientX - kotakMerah.getBoundingClientRect().left;
+  startOffsetYMerah = e.clientY - kotakMerah.getBoundingClientRect().top;
 }
 
 function handleMouseMoveMerah(e) {
@@ -28,13 +28,16 @@ function handleMouseMoveMerah(e) {
     newX = Math.max(0, Math.min(newX, borderRect.width - kotakMerah.offsetWidth));
     newY = Math.max(0, Math.min(newY, borderRect.height - kotakMerah.offsetHeight));
 
-    kotakMerah.style.left = newX + "px";
-    kotakMerah.style.top = newY + "px";
+    var relativeX = (newX / borderRect.width) * 100;
+    var relativeY = (newY / borderRect.height) * 100;
+
+    kotakMerah.style.left = relativeX + "%";
+    kotakMerah.style.top = relativeY + "%";
 
     // Mengirim posisi kotak ke Firebase Realtime Database - Kotak Merah
     database.ref("posisi_kotak_merah").set({
-      left: newX,
-      top: newY
+      left: relativeX + "%",
+      top: relativeY + "%"
     });
 
     // Memperbarui borderRect setelah posisi kotak berubah
@@ -49,8 +52,8 @@ function handleMouseUpMerah() {
 function handleMouseDownBiru(e) {
   e.preventDefault();
   isDraggingBiru = true;
-  startOffsetXBiru = e.clientX - kotakBiru.offsetLeft;
-  startOffsetYBiru = e.clientY - kotakBiru.offsetTop;
+  startOffsetXBiru = e.clientX - kotakBiru.getBoundingClientRect().left;
+  startOffsetYBiru = e.clientY - kotakBiru.getBoundingClientRect().top;
 }
 
 function handleMouseMoveBiru(e) {
@@ -61,13 +64,16 @@ function handleMouseMoveBiru(e) {
     newX = Math.max(0, Math.min(newX, borderRect.width - kotakBiru.offsetWidth));
     newY = Math.max(0, Math.min(newY, borderRect.height - kotakBiru.offsetHeight));
 
-    kotakBiru.style.left = newX + "px";
-    kotakBiru.style.top = newY + "px";
+    var relativeX = (newX / borderRect.width) * 100;
+    var relativeY = (newY / borderRect.height) * 100;
+
+    kotakBiru.style.left = relativeX + "%";
+    kotakBiru.style.top = relativeY + "%";
 
     // Mengirim posisi kotak ke Firebase Realtime Database - Kotak Biru
     database.ref("posisi_kotak_biru").set({
-      left: newX,
-      top: newY
+      left: relativeX + "%",
+      top: relativeY + "%"
     });
 
     // Memperbarui borderRect setelah posisi kotak berubah
@@ -83,8 +89,8 @@ var posisiKotakMerahRef = database.ref("posisi_kotak_merah");
 posisiKotakMerahRef.on("value", function(snapshot) {
   var posisiMerah = snapshot.val();
   if (posisiMerah) {
-    kotakMerah.style.left = posisiMerah.left + "px";
-    kotakMerah.style.top = posisiMerah.top + "px";
+    kotakMerah.style.left = posisiMerah.left;
+    kotakMerah.style.top = posisiMerah.top;
   }
 });
 
@@ -92,8 +98,8 @@ var posisiKotakBiruRef = database.ref("posisi_kotak_biru");
 posisiKotakBiruRef.on("value", function(snapshot) {
   var posisiBiru = snapshot.val();
   if (posisiBiru) {
-    kotakBiru.style.left = posisiBiru.left + "px";
-    kotakBiru.style.top = posisiBiru.top + "px";
+    kotakBiru.style.left = posisiBiru.left;
+    kotakBiru.style.top = posisiBiru.top;
   }
 });
 
@@ -110,8 +116,8 @@ document.addEventListener("mouseup", handleMouseUpBiru);
 function handleTouchStartMerah(e) {
   e.preventDefault();
   isDraggingMerah = true;
-  startOffsetXMerah = e.touches[0].clientX - kotakMerah.offsetLeft;
-  startOffsetYMerah = e.touches[0].clientY - kotakMerah.offsetTop;
+  startOffsetXMerah = e.touches[0].clientX - kotakMerah.getBoundingClientRect().left;
+  startOffsetYMerah = e.touches[0].clientY - kotakMerah.getBoundingClientRect().top;
 }
 
 function handleTouchMoveMerah(e) {
@@ -122,12 +128,15 @@ function handleTouchMoveMerah(e) {
     newX = Math.max(0, Math.min(newX, borderRect.width - kotakMerah.offsetWidth));
     newY = Math.max(0, Math.min(newY, borderRect.height - kotakMerah.offsetHeight));
 
-    kotakMerah.style.left = newX + "px";
-    kotakMerah.style.top = newY + "px";
+    var relativeX = (newX / borderRect.width) * 100;
+    var relativeY = (newY / borderRect.height) * 100;
+
+    kotakMerah.style.left = relativeX + "%";
+    kotakMerah.style.top = relativeY + "%";
 
     database.ref("posisi_kotak_merah").set({
-      left: newX,
-      top: newY
+      left: relativeX + "%",
+      top: relativeY + "%"
     });
   }
 }
@@ -139,8 +148,8 @@ function handleTouchEndMerah() {
 function handleTouchStartBiru(e) {
   e.preventDefault();
   isDraggingBiru = true;
-  startOffsetXBiru = e.touches[0].clientX - kotakBiru.offsetLeft;
-  startOffsetYBiru = e.touches[0].clientY - kotakBiru.offsetTop;
+  startOffsetXBiru = e.touches[0].clientX - kotakBiru.getBoundingClientRect().left;
+  startOffsetYBiru = e.touches[0].clientY - kotakBiru.getBoundingClientRect().top;
 }
 
 function handleTouchMoveBiru(e) {
@@ -151,12 +160,15 @@ function handleTouchMoveBiru(e) {
     newX = Math.max(0, Math.min(newX, borderRect.width - kotakBiru.offsetWidth));
     newY = Math.max(0, Math.min(newY, borderRect.height - kotakBiru.offsetHeight));
 
-    kotakBiru.style.left = newX + "px";
-    kotakBiru.style.top = newY + "px";
+    var relativeX = (newX / borderRect.width) * 100;
+    var relativeY = (newY / borderRect.height) * 100;
+
+    kotakBiru.style.left = relativeX + "%";
+    kotakBiru.style.top = relativeY + "%";
 
     database.ref("posisi_kotak_biru").set({
-      left: newX,
-      top: newY
+      left: relativeX + "%",
+      top: relativeY + "%"
     });
   }
 }
@@ -172,3 +184,5 @@ document.addEventListener("touchend", handleTouchEndMerah);
 kotakBiru.addEventListener("touchstart", handleTouchStartBiru);
 document.addEventListener("touchmove", handleTouchMoveBiru);
 document.addEventListener("touchend", handleTouchEndBiru);
+
+updateBorderRect();
