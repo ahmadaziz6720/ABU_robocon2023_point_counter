@@ -1,26 +1,26 @@
 .box {
-    position: absolute;
-    width: 20px;
-    height: 20px;
-    cursor: move;
-  }
-  
-  #kotak-merah {
-    background-color: red;
-  }
-  
-  #kotak-biru {
-    background-color: blue;
-  }
-  
-  #border {
-    position: relative;
-    width: 100%;
-    height: 100vh; /* Menggunakan 100% tinggi viewport */
-    border: none; /* Menghapus border */
-    overflow: hidden;
-    background-image: url("img/field.JPG"); /* Tambahkan path gambar background */
-    background-size: contain; /* Mengatur ukuran gambar agar sesuai skala aslinya */
-    background-repeat: no-repeat; /* Menghindari pengulangan gambar */
-    background-position: center; /* Menyusun gambar pada tengah elemen */
-  }
+  position: absolute;
+  width: 25px;
+  height: 25px;
+  cursor: move;
+}
+
+#kotak-merah {
+  background-color: red;
+}
+
+#kotak-biru {
+  background-color: blue;
+}
+
+#border {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  border: none;
+  overflow: hidden;
+  background-image: url("img/field.JPG");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
