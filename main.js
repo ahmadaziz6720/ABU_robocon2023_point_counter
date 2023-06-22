@@ -6,9 +6,11 @@ var startOffsetXMerah, startOffsetYMerah;
 var startOffsetXBiru, startOffsetYBiru;
 var border = document.getElementById("border");
 var borderRect = border.getBoundingClientRect();
+var backgroundImageRect = null;
 
 function updateBorderRect() {
   borderRect = border.getBoundingClientRect();
+  backgroundImageRect = border.getBoundingClientRect();
 }
 
 function handleMouseDownMerah(e) {
@@ -29,11 +31,14 @@ function handleMouseMoveMerah(e) {
     kotakMerah.style.left = newX + "px";
     kotakMerah.style.top = newY + "px";
 
-    // Send box position to Firebase Realtime Database - Kotak Merah
-    database.ref().child("posisi_kotak_merah").set({
+    // Mengirim posisi kotak ke Firebase Realtime Database - Kotak Merah
+    database.ref("posisi_kotak_merah").set({
       left: newX,
       top: newY
     });
+
+    // Memperbarui borderRect setelah posisi kotak berubah
+    updateBorderRect();
   }
 }
 
@@ -59,17 +64,48 @@ function handleMouseMoveBiru(e) {
     kotakBiru.style.left = newX + "px";
     kotakBiru.style.top = newY + "px";
 
-    // Send box position to Firebase Realtime Database - Kotak Biru
-    database.ref().child("posisi_kotak_biru").set({
+    // Mengirim posisi kotak ke Firebase Realtime Database - Kotak Biru
+    database.ref("posisi_kotak_biru").set({
       left: newX,
       top: newY
     });
+
+    // Memperbarui borderRect setelah posisi kotak berubah
+    updateBorderRect();
   }
 }
 
 function handleMouseUpBiru() {
   isDraggingBiru = false;
 }
+
+var posisiKotakMerahRef = database.ref("posisi_kotak_merah");
+posisiKotakMerahRef.on("value", function(snapshot) {
+  var posisiMerah = snapshot.val();
+  if (posisiMerah) {
+    kotakMerah.style.left = posisiMerah.left + "px";
+    kotakMerah.style.top = posisiMerah.top + "px";
+  }
+});
+
+var posisiKotakBiruRef = database.ref("posisi_kotak_biru");
+posisiKotakBiruRef.on("value", function(snapshot) {
+  var posisiBiru = snapshot.val();
+  if (posisiBiru) {
+    kotakBiru.style.left = posisiBiru.left + "px";
+    kotakBiru.style.top = posisiBiru.top + "px";
+  }
+});
+
+window.addEventListener("resize", updateBorderRect);
+
+kotakMerah.addEventListener("mousedown", handleMouseDownMerah);
+document.addEventListener("mousemove", handleMouseMoveMerah);
+document.addEventListener("mouseup", handleMouseUpMerah);
+
+kotakBiru.addEventListener("mousedown", handleMouseDownBiru);
+document.addEventListener("mousemove", handleMouseMoveBiru);
+document.addEventListener("mouseup", handleMouseUpBiru);
 
 function handleTouchStartMerah(e) {
   e.preventDefault();
@@ -89,8 +125,7 @@ function handleTouchMoveMerah(e) {
     kotakMerah.style.left = newX + "px";
     kotakMerah.style.top = newY + "px";
 
-    // Send box position to Firebase Realtime Database - Kotak Merah
-    database.ref().child("posisi_kotak_merah").set({
+    database.ref("posisi_kotak_merah").set({
       left: newX,
       top: newY
     });
@@ -119,8 +154,7 @@ function handleTouchMoveBiru(e) {
     kotakBiru.style.left = newX + "px";
     kotakBiru.style.top = newY + "px";
 
-    // Send box position to Firebase Realtime Database - Kotak Biru
-    database.ref().child("posisi_kotak_biru").set({
+    database.ref("posisi_kotak_biru").set({
       left: newX,
       top: newY
     });
@@ -130,36 +164,6 @@ function handleTouchMoveBiru(e) {
 function handleTouchEndBiru() {
   isDraggingBiru = false;
 }
-
-// Retrieve box positions from Firebase Realtime Database
-var posisiKotakMerahRef = database.ref("posisi_kotak_merah");
-posisiKotakMerahRef.on("value", function(snapshot) {
-  var posisiMerah = snapshot.val();
-  if (posisiMerah) {
-    kotakMerah.style.left = posisiMerah.left + "px";
-    kotakMerah.style.top = posisiMerah.top + "px";
-  }
-});
-
-var posisiKotakBiruRef = database.ref("posisi_kotak_biru");
-posisiKotakBiruRef.on("value", function(snapshot) {
-  var posisiBiru = snapshot.val();
-  if (posisiBiru) {
-    kotakBiru.style.left = posisiBiru.left + "px";
-    kotakBiru.style.top = posisiBiru.top + "px";
-  }
-});
-
-// Event listeners
-window.addEventListener("resize", updateBorderRect);
-
-kotakMerah.addEventListener("mousedown", handleMouseDownMerah);
-document.addEventListener("mousemove", handleMouseMoveMerah);
-document.addEventListener("mouseup", handleMouseUpMerah);
-
-kotakBiru.addEventListener("mousedown", handleMouseDownBiru);
-document.addEventListener("mousemove", handleMouseMoveBiru);
-document.addEventListener("mouseup", handleMouseUpBiru);
 
 kotakMerah.addEventListener("touchstart", handleTouchStartMerah);
 document.addEventListener("touchmove", handleTouchMoveMerah);

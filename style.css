@@ -17,7 +17,10 @@
     position: relative;
     width: 100%;
     height: 100vh; /* Menggunakan 100% tinggi viewport */
-    border: 1px solid black;
+    border: none; /* Menghapus border */
     overflow: hidden;
+    background-image: url("img/field.jpg"); /* Tambahkan path gambar background */
+    background-size: contain; /* Mengatur ukuran gambar agar sesuai skala aslinya */
+    background-repeat: no-repeat; /* Menghindari pengulangan gambar */
+    background-position: center; /* Menyusun gambar pada tengah elemen */
   }
-  
