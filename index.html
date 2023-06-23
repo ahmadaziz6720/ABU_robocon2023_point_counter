@@ -4,14 +4,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Abu robocon 2023</title>
+  <title>Abu Robocon 2023</title>
   <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-  <div id="border">
-    <div id="kotak-merah" class="box"></div>
-    <div id="kotak-biru" class="box"></div>
+  <div class="container">
+    <div class="column column-left"></div>
+    <div class="column column-center">
+      <div id="border">
+        <div id="kotak-merah" class="box"></div>
+        <div id="kotak-biru" class="box"></div>
+      </div>
+
+      <button id="toggle-button" class="circle"></button>
+    </div>
+    <div class="column column-right"></div>
   </div>
 
   <!-- Firebase SDK -->

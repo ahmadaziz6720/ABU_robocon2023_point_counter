@@ -6,11 +6,12 @@ var startOffsetXMerah, startOffsetYMerah;
 var startOffsetXBiru, startOffsetYBiru;
 var border = document.getElementById("border");
 var borderRect = border.getBoundingClientRect();
-var backgroundImageRect = null;
+var toggleButton = document.getElementById("toggle-button");
+var currentColor = "black";
+var toggleRef = database.ref("toggle_button");
 
 function updateBorderRect() {
   borderRect = border.getBoundingClientRect();
-  backgroundImageRect = border.getBoundingClientRect();
 }
 
 function handleMouseDownMerah(e) {
@@ -186,3 +187,94 @@ document.addEventListener("touchmove", handleTouchMoveBiru);
 document.addEventListener("touchend", handleTouchEndBiru);
 
 updateBorderRect();
+
+// Membuat button toggle dengan bentuk lingkaran di tengah
+var toggleButton = document.createElement("button");
+toggleButton.classList.add("toggle-button");
+toggleButton.style.position = "absolute";
+toggleButton.style.top = "50%";
+toggleButton.style.left = "50%";
+toggleButton.style.transform = "translate(-50%, -50%)";
+toggleButton.style.width = "60px";
+toggleButton.style.height = "60px";
+toggleButton.style.borderRadius = "50%";
+toggleButton.style.backgroundColor = "black";
+toggleButton.style.border = "none";
+toggleButton.style.outline = "none";
+toggleButton.style.cursor = "pointer";
+
+document.body.appendChild(toggleButton);
+
+// Memasang listener pada tombol toggle
+toggleButton.addEventListener("click", toggleButtonClicked);
+
+// Menerima perubahan nilai pada Firebase Realtime Database
+toggleRef.on("value", function(snapshot) {
+  var value = snapshot.val();
+  if (value === "on") {
+    toggleButton.style.backgroundColor = "green";
+  } else if (value === "off") {
+    toggleButton.style.backgroundColor = "red";
+  }
+});
+
+// Fungsi untuk membalikkan nilai tombol toggle
+function toggleButtonClicked() {
+  if (currentColor === "black") {
+    toggleRef.set("on");
+  } else if (currentColor === "green") {
+    toggleRef.set("off");
+  } else if (currentColor === "red") {
+    toggleRef.set("on");
+  }
+}
+
+// Mengubah warna tombol toggle saat ditekan
+toggleButton.addEventListener("mousedown", function() {
+  if (currentColor === "black") {
+    toggleButton.style.backgroundColor = "green";
+    currentColor = "green";
+  } else if (currentColor === "green") {
+    toggleButton.style.backgroundColor = "red";
+    currentColor = "red";
+  } else if (currentColor === "red") {
+    toggleButton.style.backgroundColor = "blue";
+    currentColor = "blue";
+  } else if (currentColor === "blue") {
+    toggleButton.style.backgroundColor = "black";
+    currentColor = "black";
+  }
+});
+
+// Mengubah warna tombol toggle saat dilepas
+toggleButton.addEventListener("mouseup", function() {
+  if (currentColor === "black") {
+    toggleButton.style.backgroundColor = "black";
+    currentColor = "black";
+  }
+});
+
+// Mengubah warna tombol toggle saat disentuh pada perangkat mobile
+toggleButton.addEventListener("touchstart", function() {
+  if (currentColor === "black") {
+    toggleButton.style.backgroundColor = "green";
+    currentColor = "green";
+  } else if (currentColor === "green") {
+    toggleButton.style.backgroundColor = "red";
+    currentColor = "red";
+  } else if (currentColor === "red") {
+    toggleButton.style.backgroundColor = "blue";
+    currentColor = "blue";
+  } else if (currentColor === "blue") {
+    toggleButton.style.backgroundColor = "black";
+    currentColor = "black";
+  }
+});
+
+// Mengubah warna tombol toggle saat sentuhan diangkat pada perangkat mobile
+toggleButton.addEventListener("touchend", function() {
+  if (currentColor === "black") {
+    toggleButton.style.backgroundColor = "black";
+    currentColor = "black";
+  }
+});
