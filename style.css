@@ -109,7 +109,7 @@
 }
 
 .toggle-button {
-  width: 30px;
+  width: 20px;
   height: 30px;
   border-radius: 50%;
   background-color: black;
@@ -125,58 +125,58 @@
 }
 
 .toggle-button.btn1 {
-  left: 29%;
-  top: 25%;
+  left: 26.3%;
+  top: 21.5%;
 }
 
 .toggle-button.btn2 {
-  left: 29%;
-  top: 47.5%;
+  left: 26.6%;
+  top: 46%;
 }
 
 .toggle-button.btn3 {
-  left: 29%;
-  top: 69%;
+  left: 26.6%;
+  top: 71%;
 }
 
 .toggle-button.btn4 {
-  left: 66%;
-  top: 25%;
+  left: 67.3%;
+  top: 21.5%;
 }
 
 .toggle-button.btn5 {
-  left: 66%;
-  top: 47.5%;
+  left: 67.3%;
+  top: 46%;
 }
 
 .toggle-button.btn6 {
-  left: 66%;
-  top: 69%;
+  left: 67.3%;
+  top: 71%;
 }
 
 .toggle-button.btn7 {
-  left: 41%;
-  top: 39%;
+  left: 39%;
+  top: 36.2%;
 }
 
 .toggle-button.btn8 {
-  left: 41%;
-  top: 55%;
+  left: 39%;
+  top: 56.5%;
 }
 
 .toggle-button.btn9 {
-  left: 54%;
-  top: 39%;
+  left: 55%;
+  top: 36.2%;
 }
 
 .toggle-button.btn10 {
-  left: 54%;
-  top: 55%;
+  left: 55%;
+  top: 56.5%;
 }
 
 .toggle-button.btn11 {
-  left: 50%;
-  top: 50%;
+  left: 47%;
+  top: 46%;
 }
 
 /* Tambahkan style lainnya untuk posisi yang diinginkan */
