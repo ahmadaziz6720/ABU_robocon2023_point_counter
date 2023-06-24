@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    .toggle-button {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background-color: black;
+      cursor: pointer;
+      margin: 5px;
+    }
+  </style>
+</head>
+<body>
+    <div id="type1" class="toggle-button">1</div>
+  <div id="type1" class="toggle-button">1</div>
+  <div id="type1" class="toggle-button">1</div>
+  <div id="type1" class="toggle-button">1</div>
+  <div id="type1" class="toggle-button">1</div>
+  <div id="type1" class="toggle-button">1</div>
+  <div id="type2" class="toggle-button">2</div>
+  <div id="type2" class="toggle-button">2</div>
+  <div id="type2" class="toggle-button">2</div>
+  <div id="type2" class="toggle-button">2</div>
+  <div id="type3" class="toggle-button">3</div>
+
+  <script>
+    var toggleButtons = document.querySelectorAll('.toggle-button');
+    var colors = ['black', 'green', 'blue', 'red'];
+    var currentColorIndex = 0;
+    var score = {
+      blue: 0,
+      red: 0
+    };
+
+    function calculateScore() {
+      score.blue = 0;
+      score.red = 0;
+
+      toggleButtons.forEach(function(button) {
+        var buttonColor = button.style.backgroundColor;
+        var buttonId = button.id;
+
+        if (buttonColor === 'blue') {
+          if (buttonId === 'type1') {
+            score.blue += 10;
+          } else if (buttonId === 'type2') {
+            score.blue += 30;
+          } else if (buttonId === 'type3') {
+            score.blue += 70;
+          }
+        } else if (buttonColor === 'red') {
+          if (buttonId === 'type1') {
+            score.red += 10;
+          } else if (buttonId === 'type2') {
+            score.red += 30;
+          } else if (buttonId === 'type3') {
+            score.red += 70;
+          }
+        }
+      });
+    }
+
+    toggleButtons.forEach(function(button) {
+      button.addEventListener('click', function() {
+        currentColorIndex = (currentColorIndex + 1) % colors.length;
+        var currentColor = colors[currentColorIndex];
+        button.style.backgroundColor = currentColor;
+        calculateScore();
+        console.log(score); // Menampilkan skor pada konsol
+      });
+    });
+  </script>
+</body>
+</html>
