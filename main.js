@@ -359,3 +359,36 @@ function padZero(value) {
 startButton.addEventListener("click", startTimer);
 resetButton.addEventListener("click", resetTimer);
 
+// Mendapatkan perubahan nilai timer dari Firebase Realtime Database
+var timerValueRef = database.ref("timer_value");
+timerValueRef.on("value", function(snapshot) {
+  var timerValue = snapshot.val();
+  if (timerValue) {
+    // Mengupdate nilai timer lokal dengan nilai dari Firebase
+    updateLocalTimer(timerValue);
+  }
+});
+
+function updateLocalTimer(value) {
+  timerValue = value;
+  var minutes = Math.floor(timerValue / 60);
+  var seconds = timerValue % 60;
+  timerElement.textContent = padZero(minutes) + ":" + padZero(seconds);
+}
+
+// Update Timer
+function updateTimer() {
+  var minutes = Math.floor(timerValue / 60);
+  var seconds = timerValue % 60;
+  timerElement.textContent = padZero(minutes) + ":" + padZero(seconds);
+
+  // Mengirim nilai timer ke Firebase Realtime Database
+  database.ref("timer_value").set(timerValue);
+
+  if (timerValue === 0) {
+    clearInterval(timerInterval);
+    startButton.disabled = false;
+  } else {
+    timerValue--;
+  }
+}
