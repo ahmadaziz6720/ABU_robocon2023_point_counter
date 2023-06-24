@@ -282,79 +282,103 @@ var scoreBiru = 0;
 var scoreMerah = 0;
 
 var toggleButtons = document.querySelectorAll('.toggle-button');
-    var colors = ['black', 'green', 'blue', 'red'];
-    var currentColorIndices = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]; // Menyimpan indeks warna untuk setiap tombol
-    var score = {
-      blue: 0,
-      red: 0
-    };
+var colors = ['black', 'green', 'blue', 'red'];
+var currentColorIndices = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]; // Menyimpan indeks warna untuk setiap tombol
+var score = {
+  blue: 0,
+  red: 0
+};
 
-    // Mendapatkan perubahan nilai skor biru dari Firebase Realtime Database
+// Menginisialisasi referensi Firebase Realtime Database untuk warna tombol
+var buttonColorRef = database.ref("button_colors");
+
+// Menginisialisasi referensi Firebase Realtime Database untuk skor biru
 var scoreBiruRef = database.ref("score_biru");
+
+// Menginisialisasi referensi Firebase Realtime Database untuk skor merah
+var scoreMerahRef = database.ref("score_merah");
+
+// Fungsi untuk menghitung skor
+function calculateScore() {
+  score.blue = 0;
+  score.red = 0;
+
+  toggleButtons.forEach(function(button, index) {
+    var buttonColor = colors[currentColorIndices[index]];
+    var buttonId = button.id;
+
+    if (buttonColor === 'blue') {
+      if (buttonId === 'type1') {
+        score.blue += 10;
+      } else if (buttonId === 'type2') {
+        score.blue += 30;
+      } else if (buttonId === 'type3') {
+        score.blue += 70;
+      }
+    } else if (buttonColor === 'red') {
+      if (buttonId === 'type1') {
+        score.red += 10;
+      } else if (buttonId === 'type2') {
+        score.red += 30;
+      } else if (buttonId === 'type3') {
+        score.red += 70;
+      }
+    }
+    scoreBiruValue.textContent = score.blue;
+    scoreMerahValue.textContent = score.red;
+  });
+
+  // Mengirim data warna tombol ke Firebase Realtime Database
+  buttonColorRef.set(currentColorIndices);
+
+  // Mengirim skor biru ke Firebase Realtime Database
+  scoreBiruRef.set(score.blue);
+
+  // Mengirim skor merah ke Firebase Realtime Database
+  scoreMerahRef.set(score.red);
+}
+
+toggleButtons.forEach(function(button, index) {
+  button.addEventListener('click', function() {
+    currentColorIndices[index] = (currentColorIndices[index] + 1) % colors.length;
+    var currentColor = colors[currentColorIndices[index]];
+    button.style.backgroundColor = currentColor;
+    calculateScore();
+    console.log(score); // Menampilkan skor pada konsol
+  });
+
+  // Set posisi button menggunakan variabel CSS
+  button.style.setProperty('--pos-x', button.dataset.posX);
+  button.style.setProperty('--pos-y', button.dataset.posY);
+});
+
+// Mendapatkan perubahan warna tombol dari Firebase Realtime Database
+buttonColorRef.on("value", function(snapshot) {
+  var buttonColors = snapshot.val();
+  if (buttonColors) {
+    currentColorIndices = buttonColors;
+    toggleButtons.forEach(function(button, index) {
+      var currentColor = colors[currentColorIndices[index]];
+      button.style.backgroundColor = currentColor;
+    });
+    calculateScore();
+  }
+});
+
+// Mendapatkan perubahan nilai skor biru dari Firebase Realtime Database
 scoreBiruRef.on("value", function(snapshot) {
   var skorBiru = snapshot.val();
   if (skorBiru) {
-    scoreBiru = skorBiru;
-    scoreBiruValue.textContent = scoreBiru;
+    score.blue = skorBiru;
+    scoreBiruValue.textContent = score.blue;
   }
 });
 
 // Mendapatkan perubahan nilai skor merah dari Firebase Realtime Database
-var scoreMerahRef = database.ref("score_merah");
 scoreMerahRef.on("value", function(snapshot) {
   var skorMerah = snapshot.val();
   if (skorMerah) {
-    scoreMerah = skorMerah;
-    scoreMerahValue.textContent = scoreMerah;
+    score.red = skorMerah;
+    scoreMerahValue.textContent = score.red;
   }
 });
-
-    function calculateScore() {
-      scoreBiru = 0;
-      scoreMerah = 0;
-    
-      toggleButtons.forEach(function(button, index) {
-        var buttonColor = colors[currentColorIndices[index]];
-        var buttonId = button.id;
-    
-        if (buttonColor === 'blue') {
-          if (buttonId === 'type1') {
-            scoreBiru += 10;
-          } else if (buttonId === 'type2') {
-            scoreBiru += 30;
-          } else if (buttonId === 'type3') {
-            scoreBiru += 70;
-          }
-        } else if (buttonColor === 'red') {
-          if (buttonId === 'type1') {
-            scoreMerah += 10;
-          } else if (buttonId === 'type2') {
-            scoreMerah += 30;
-          } else if (buttonId === 'type3') {
-            scoreMerah += 70;
-          }
-        }
-        scoreBiruValue.textContent = scoreBiru;
-        scoreMerahValue.textContent = scoreMerah;
-    
-        // Mengirim skor biru ke Firebase Realtime Database
-        database.ref("score_biru").set(scoreBiru);
-    
-        // Mengirim skor merah ke Firebase Realtime Database
-        database.ref("score_merah").set(scoreMerah);
-      });
-    }
-
-    toggleButtons.forEach(function(button, index) {
-      button.addEventListener('click', function() {
-        currentColorIndices[index] = (currentColorIndices[index] + 1) % colors.length;
-        var currentColor = colors[currentColorIndices[index]];
-        button.style.backgroundColor = currentColor;
-        calculateScore();
-        console.log(score); // Menampilkan skor pada konsol
-      });
-
-      // Set posisi button menggunakan variabel CSS
-      button.style.setProperty('--pos-x', button.dataset.posX);
-      button.style.setProperty('--pos-y', button.dataset.posY);
-    });
