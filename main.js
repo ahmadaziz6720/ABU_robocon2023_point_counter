@@ -10,6 +10,20 @@ var toggleButton = document.getElementById("toggle-button");
 var currentColor = "black";
 var toggleRef = database.ref("toggle_button");
 
+var scoreBiru = 0;
+var scoreMerah = 0;
+
+var scoreBiruValue = document.getElementById("score-biru-value");
+var scoreMerahValue = document.getElementById("score-merah-value");
+
+var timerElement = document.getElementById("timer");
+var startButton = document.getElementById("startButton");
+var resetButton = document.getElementById("resetButton");
+
+var totalSeconds = 180; // 3 menit
+var seconds = totalSeconds;
+var interval;
+
 function updateBorderRect() {
   borderRect = border.getBoundingClientRect();
 }
@@ -244,6 +258,24 @@ toggleButton.addEventListener("mousedown", function() {
     toggleButton.style.backgroundColor = "black";
     currentColor = "black";
   }
+
+  // Memperbarui skor saat tombol biru ditekan
+  if (currentColor === "blue") {
+    scoreBiru++;
+    scoreBiruValue.textContent = scoreBiru;
+
+    // Menyimpan skor biru ke Firebase Realtime Database
+    database.ref("skor_biru").set(scoreBiru);
+  }
+
+  // Memperbarui skor saat tombol merah ditekan
+  if (currentColor === "red") {
+    scoreMerah++;
+    scoreMerahValue.textContent = scoreMerah;
+
+    // Menyimpan skor merah ke Firebase Realtime Database
+    database.ref("skor_merah").set(scoreMerah);
+  }
 });
 
 // Mengubah warna tombol toggle saat dilepas
@@ -271,10 +303,59 @@ toggleButton.addEventListener("touchstart", function() {
   }
 });
 
-// Mengubah warna tombol toggle saat sentuhan diangkat pada perangkat mobile
+// Mengubah warna tombol toggle saat sentuhan diangkat dari perangkat mobile
 toggleButton.addEventListener("touchend", function() {
   if (currentColor === "black") {
     toggleButton.style.backgroundColor = "black";
     currentColor = "black";
   }
 });
+
+// Variable Timer
+var timerValue = 180; // 3 minutes (in seconds)
+var timerInterval;
+
+// Timer Elements
+var timerElement = document.getElementById("timer-value");
+var startButton = document.getElementById("start-button");
+var resetButton = document.getElementById("reset-button");
+
+// Start Timer
+function startTimer() {
+  startButton.disabled = true;
+  resetButton.disabled = false;
+  timerInterval = setInterval(updateTimer, 1000);
+}
+
+// Reset Timer
+function resetTimer() {
+  clearInterval(timerInterval);
+  timerValue = 180; // Reset timer value to 3 minutes
+  updateTimer();
+  startButton.disabled = false;
+  resetButton.disabled = true;
+}
+
+// Update Timer
+function updateTimer() {
+  var minutes = Math.floor(timerValue / 60);
+  var seconds = timerValue % 60;
+  timerElement.textContent = padZero(minutes) + ":" + padZero(seconds);
+
+  if (timerValue === 0) {
+    clearInterval(timerInterval);
+    startButton.disabled = false;
+  } else {
+    timerValue--;
+  }
+}
+
+// Helper function to pad zeros
+function padZero(value) {
+  return value.toString().padStart(2, "0");
+}
+
+// Event Listeners
+startButton.addEventListener("click", startTimer);
+resetButton.addEventListener("click", resetTimer);
+

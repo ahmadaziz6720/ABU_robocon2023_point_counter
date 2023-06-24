@@ -10,16 +10,57 @@
 
 <body>
   <div class="container">
-    <div class="column column-left"></div>
+    <div class="column column-left">
+      <div id="score-biru" class="score-box">
+        <h2>Score Biru:</h2>
+        <p id="score-biru-value">0</p>
+        <div class="timer">
+          <h2>Timer:</h2>
+          <p id="timer-value">3:00</p>
+          <button id="start-button">Start</button>
+          <button id="reset-button">Reset</button>
+        </div>
+      </div>
+      
+    </div>
     <div class="column column-center">
       <div id="border">
         <div id="kotak-merah" class="box"></div>
         <div id="kotak-biru" class="box"></div>
+        <!-- Button-button sebagai representasi tiang -->
+        <button id="toggle-button" class="circle-1"></button>
+        <button id="toggle-button" class="circle-2"></button>
+        <button id="toggle-button" class="circle-3"></button>
+        <button id="toggle-button" class="circle-4"></button>
+        <button id="toggle-button" class="circle-5"></button>
+        <button id="toggle-button" class="circle-6"></button>
+        <button id="toggle-button" class="circle-7"></button>
+        <button id="toggle-button" class="circle-8"></button>
+        <button id="toggle-button" class="circle-9"></button>
+        <button id="toggle-button" class="circle-10"></button>
+        <button id="toggle-button" class="circle-11"></button>
+
+        <!-- <button id="tiang1" class="circle tiang" onclick="updateScore('biru', 1)"></button>
+        <button id="tiang2" class="circle tiang" onclick="updateScore('biru', 2)"></button>
+        <button id="tiang3" class="circle tiang" onclick="updateScore('biru', 3)"></button>
+        <button id="tiang4" class="circle tiang" onclick="updateScore('biru', 4)"></button>
+        <button id="tiang5" class="circle tiang" onclick="updateScore('biru', 5)"></button>
+        <button id="tiang6" class="circle tiang" onclick="updateScore('biru', 6)"></button>
+        <button id="tiang7" class="circle tiang" onclick="updateScore('biru', 7)"></button>
+        <button id="tiang8" class="circle tiang" onclick="updateScore('biru', 8)"></button>
+        <button id="tiang9" class="circle tiang" onclick="updateScore('biru', 9)"></button>
+        <button id="tiang10" class="circle tiang" onclick="updateScore('biru', 10)"></button>
+        <button id="tiang11" class="circle tiang" onclick="updateScore('biru', 11)"></button> -->
       </div>
 
-      <button id="toggle-button" class="circle"></button>
+      
     </div>
-    <div class="column column-right"></div>
+    <div class="column column-right">
+      <div id="score-merah" class="score-box">
+        <h2>Score Merah:</h2>
+        <p id="score-merah-value">0</p>
+      </div>
+    </div>
   </div>
 
   <!-- Firebase SDK -->
