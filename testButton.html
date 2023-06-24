@@ -9,26 +9,33 @@
       background-color: black;
       cursor: pointer;
       margin: 5px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      font-weight: bold;
+      border: 2px solid gray;
+      position: absolute;
     }
   </style>
 </head>
 <body>
-    <div id="type1" class="toggle-button">1</div>
-  <div id="type1" class="toggle-button">1</div>
-  <div id="type1" class="toggle-button">1</div>
-  <div id="type1" class="toggle-button">1</div>
-  <div id="type1" class="toggle-button">1</div>
-  <div id="type1" class="toggle-button">1</div>
-  <div id="type2" class="toggle-button">2</div>
-  <div id="type2" class="toggle-button">2</div>
-  <div id="type2" class="toggle-button">2</div>
-  <div id="type2" class="toggle-button">2</div>
-  <div id="type3" class="toggle-button">3</div>
+    <div id="type1" class="toggle-button" style="--pos-x: 10px; --pos-y: 10px;">1</div>
+    <div id="type1" class="toggle-button" style="--pos-x: 70px; --pos-y: 10px;">1</div>
+    <div id="type1" class="toggle-button" style="--pos-x: 130px; --pos-y: 10px;">1</div>
+    <div id="type1" class="toggle-button" style="--pos-x: 10px; --pos-y: 70px;">1</div>
+    <div id="type1" class="toggle-button" style="--pos-x: 70px; --pos-y: 70px;">1</div>
+    <div id="type1" class="toggle-button" style="--pos-x: 130px; --pos-y: 70px;">1</div>
+    <div id="type2" class="toggle-button" style="--pos-x: 10px; --pos-y: 130px;">2</div>
+    <div id="type2" class="toggle-button" style="--pos-x: 70px; --pos-y: 130px;">2</div>
+    <div id="type2" class="toggle-button" style="--pos-x: 130px; --pos-y: 130px;">2</div>
+    <div id="type2" class="toggle-button" style="--pos-x: 10px; --pos-y: 190px;">2</div>
+    <div id="type3" class="toggle-button" style="--pos-x: 70px; --pos-y: 190px;">3</div>
 
   <script>
     var toggleButtons = document.querySelectorAll('.toggle-button');
     var colors = ['black', 'green', 'blue', 'red'];
-    var currentColorIndex = 0;
+    var currentColorIndices = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]; // Menyimpan indeks warna untuk setiap tombol
     var score = {
       blue: 0,
       red: 0
@@ -38,8 +45,8 @@
       score.blue = 0;
       score.red = 0;
 
-      toggleButtons.forEach(function(button) {
-        var buttonColor = button.style.backgroundColor;
+      toggleButtons.forEach(function(button, index) {
+        var buttonColor = colors[currentColorIndices[index]];
         var buttonId = button.id;
 
         if (buttonColor === 'blue') {
@@ -62,14 +69,18 @@
       });
     }
 
-    toggleButtons.forEach(function(button) {
+    toggleButtons.forEach(function(button, index) {
       button.addEventListener('click', function() {
-        currentColorIndex = (currentColorIndex + 1) % colors.length;
-        var currentColor = colors[currentColorIndex];
+        currentColorIndices[index] = (currentColorIndices[index] + 1) % colors.length;
+        var currentColor = colors[currentColorIndices[index]];
         button.style.backgroundColor = currentColor;
         calculateScore();
         console.log(score); // Menampilkan skor pada konsol
       });
+
+      // Set posisi button menggunakan variabel CSS
+      button.style.setProperty('--pos-x', button.dataset.posX);
+      button.style.setProperty('--pos-y', button.dataset.posY);
     });
   </script>
 </body>

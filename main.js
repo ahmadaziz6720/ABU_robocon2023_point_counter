@@ -281,138 +281,54 @@ function updateTimer() {
   }
 }
 
-var buttonTiang1 = document.getElementById("tiang1");
-var buttonTiang2 = document.getElementById("tiang2");
-var buttonTiang3 = document.getElementById("tiang3");
-var buttonTiang4 = document.getElementById("tiang4");
-var buttonTiang5 = document.getElementById("tiang5");
-var buttonTiang6 = document.getElementById("tiang6");
-var buttonTiang7 = document.getElementById("tiang7");
-var buttonTiang8 = document.getElementById("tiang8");
-var buttonTiang9 = document.getElementById("tiang9");
-var buttonTiang10 = document.getElementById("tiang10");
-var buttonTiang11 = document.getElementById("tiang11");
+var toggleButtons = document.querySelectorAll('.toggle-button');
+    var colors = ['black', 'green', 'blue', 'red'];
+    var currentColorIndices = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]; // Menyimpan indeks warna untuk setiap tombol
+    var score = {
+      blue: 0,
+      red: 0
+    };
 
-var scoreBiruValue = document.getElementById("score-biru-value");
-var scoreMerahValue = document.getElementById("score-merah-value");
+    function calculateScore() {
+      score.blue = 0;
+      score.red = 0;
 
-// Fungsi untuk mengubah warna dan mengupdate skor
-// Fungsi untuk mengubah warna dan mengupdate skor
-function updateScore(target, type, buttonId) {
-  var button = document.getElementById("tiang" + buttonId);
-  var scoreIncrement = 0;
+      toggleButtons.forEach(function(button, index) {
+        var buttonColor = colors[currentColorIndices[index]];
+        var buttonId = button.id;
 
-  // Mengubah warna button sesuai dengan target dan type
-  if (type === "type1") {
-    if (button.style.backgroundColor === "black") {
-      button.style.backgroundColor = "green";
-    } else if (button.style.backgroundColor === "green") {
-      button.style.backgroundColor = "red";
-    } else if (button.style.backgroundColor === "red") {
-      button.style.backgroundColor = "black";
+        if (buttonColor === 'blue') {
+          if (buttonId === 'type1') {
+            score.blue += 10;
+          } else if (buttonId === 'type2') {
+            score.blue += 30;
+          } else if (buttonId === 'type3') {
+            score.blue += 70;
+          }
+        } else if (buttonColor === 'red') {
+          if (buttonId === 'type1') {
+            score.red += 10;
+          } else if (buttonId === 'type2') {
+            score.red += 30;
+          } else if (buttonId === 'type3') {
+            score.red += 70;
+          }
+        }
+        scoreBiruValue.textContent = score.blue;
+        scoreMerahValue.textContent = score.red;
+      });
     }
-  } else if (type === "type2" || type === "type3") {
-    if (button.style.backgroundColor === "black") {
-      button.style.backgroundColor = "green";
-    } else if (button.style.backgroundColor === "green") {
-      button.style.backgroundColor = "red";
-    } else if (button.style.backgroundColor === "red") {
-      button.style.backgroundColor = "blue";
-    } else if (button.style.backgroundColor === "blue") {
-      button.style.backgroundColor = "black";
-    }
-  }
 
-  // Mengupdate skor sesuai dengan type
-  if (target === "merah") {
-    if (type === "type1") {
-      if (button.style.backgroundColor === "red") {
-        scoreIncrement = -10;
-      } else if (button.style.backgroundColor === "black") {
-        scoreIncrement = 10;
-        button.style.backgroundColor = "red"; // Ubah warna menjadi merah
-      }
-    } else if (type === "type2" || type === "type3") {
-      if (button.style.backgroundColor === "red") {
-        scoreIncrement = -30;
-      } else if (button.style.backgroundColor === "blue") {
-        scoreIncrement = 30;
-        button.style.backgroundColor = "red"; // Ubah warna menjadi merah
-      }
-    }
-    scoreMerah += scoreIncrement;
-  } else if (target === "biru") {
-    if (type === "type1") {
-      if (button.style.backgroundColor === "blue") {
-        scoreIncrement = -10;
-      } else if (button.style.backgroundColor === "black") {
-        scoreIncrement = 10;
-        button.style.backgroundColor = "blue"; // Ubah warna menjadi biru
-      }
-    } else if (type === "type2" || type === "type3") {
-      if (button.style.backgroundColor === "blue") {
-        scoreIncrement = -30;
-      } else if (button.style.backgroundColor === "red") {
-        scoreIncrement = 30;
-        button.style.backgroundColor = "blue"; // Ubah warna menjadi biru
-      }
-    }
-    scoreBiru += scoreIncrement;
-  }
+    toggleButtons.forEach(function(button, index) {
+      button.addEventListener('click', function() {
+        currentColorIndices[index] = (currentColorIndices[index] + 1) % colors.length;
+        var currentColor = colors[currentColorIndices[index]];
+        button.style.backgroundColor = currentColor;
+        calculateScore();
+        console.log(score); // Menampilkan skor pada konsol
+      });
 
-  // Memastikan skor tidak negatif
-  scoreBiru = Math.max(scoreBiru, 0);
-  scoreMerah = Math.max(scoreMerah, 0);
-
-  // Memastikan skor tidak melebihi batas maksimal
-  scoreBiru = Math.min(scoreBiru, 220);
-  scoreMerah = Math.min(scoreMerah, 220);
-
-  // Menampilkan skor
-  scoreBiruValue.textContent = scoreBiru;
-  scoreMerahValue.textContent = scoreMerah;
-}
-
-buttonTiang1.addEventListener("click", function () {
-  updateScore("merah", "type1", 1);
-});
-
-buttonTiang2.addEventListener("click", function () {
-  updateScore("merah", "type1", 2);
-});
-
-buttonTiang3.addEventListener("click", function () {
-  updateScore("merah", "type1", 3);
-});
-
-buttonTiang4.addEventListener("click", function () {
-  updateScore("merah", "type1", 4);
-});
-
-buttonTiang5.addEventListener("click", function () {
-  updateScore("merah", "type1", 5);
-});
-
-buttonTiang6.addEventListener("click", function () {
-  updateScore("merah", "type1", 6);
-});
-
-buttonTiang7.addEventListener("click", function () {
-  updateScore("all", "type2", 7);
-});
-
-buttonTiang8.addEventListener("click", function () {
-  updateScore("all", "type2", 8);
-});
-
-buttonTiang9.addEventListener("click", function () {
-  updateScore("all", "type2", 9);
-});
-
-buttonTiang10.addEventListener("click", function () {
-  updateScore("all", "type2", 10);
-});
-
-buttonTiang11.addEventListener("click", function () {
-  updateScore("all", "type3", 11);
-});
+      // Set posisi button menggunakan variabel CSS
+      button.style.setProperty('--pos-x', button.dataset.posX);
+      button.style.setProperty('--pos-y', button.dataset.posY);
+    });

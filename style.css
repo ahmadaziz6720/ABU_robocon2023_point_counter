@@ -98,16 +98,17 @@
   font-size: 16px;
 }
 
-.circle-tiang-1,
-.circle-tiang-2,
-.circle-tiang-3,
-.circle-tiang-4,
-.circle-tiang-5,
-.circle-tiang-6,
-.circle-tiang-7,
-.circle-tiang-8,
-.circle-tiang-9,
-.circle-tiang-10,
-.circle-tiang-11 {
+.toggle-button {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
   background-color: black;
+  cursor: pointer;
+  margin: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-weight: bold;
+  border: 2px solid gray;
 }
