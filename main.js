@@ -7,9 +7,6 @@ var startOffsetXBiru, startOffsetYBiru;
 var border = document.getElementById("border");
 var borderRect = border.getBoundingClientRect();
 
-var scoreBiru = 0;
-var scoreMerah = 0;
-
 var scoreBiruValue = document.getElementById("score-biru-value");
 var scoreMerahValue = document.getElementById("score-merah-value");
 
@@ -281,6 +278,9 @@ function updateTimer() {
   }
 }
 
+var scoreBiru = 0;
+var scoreMerah = 0;
+
 var toggleButtons = document.querySelectorAll('.toggle-button');
     var colors = ['black', 'green', 'blue', 'red'];
     var currentColorIndices = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]; // Menyimpan indeks warna untuk setiap tombol
@@ -289,33 +289,59 @@ var toggleButtons = document.querySelectorAll('.toggle-button');
       red: 0
     };
 
-    function calculateScore() {
-      score.blue = 0;
-      score.red = 0;
+    // Mendapatkan perubahan nilai skor biru dari Firebase Realtime Database
+var scoreBiruRef = database.ref("score_biru");
+scoreBiruRef.on("value", function(snapshot) {
+  var skorBiru = snapshot.val();
+  if (skorBiru) {
+    scoreBiru = skorBiru;
+    scoreBiruValue.textContent = scoreBiru;
+  }
+});
 
+// Mendapatkan perubahan nilai skor merah dari Firebase Realtime Database
+var scoreMerahRef = database.ref("score_merah");
+scoreMerahRef.on("value", function(snapshot) {
+  var skorMerah = snapshot.val();
+  if (skorMerah) {
+    scoreMerah = skorMerah;
+    scoreMerahValue.textContent = scoreMerah;
+  }
+});
+
+    function calculateScore() {
+      scoreBiru = 0;
+      scoreMerah = 0;
+    
       toggleButtons.forEach(function(button, index) {
         var buttonColor = colors[currentColorIndices[index]];
         var buttonId = button.id;
-
+    
         if (buttonColor === 'blue') {
           if (buttonId === 'type1') {
-            score.blue += 10;
+            scoreBiru += 10;
           } else if (buttonId === 'type2') {
-            score.blue += 30;
+            scoreBiru += 30;
           } else if (buttonId === 'type3') {
-            score.blue += 70;
+            scoreBiru += 70;
           }
         } else if (buttonColor === 'red') {
           if (buttonId === 'type1') {
-            score.red += 10;
+            scoreMerah += 10;
           } else if (buttonId === 'type2') {
-            score.red += 30;
+            scoreMerah += 30;
           } else if (buttonId === 'type3') {
-            score.red += 70;
+            scoreMerah += 70;
           }
         }
-        scoreBiruValue.textContent = score.blue;
-        scoreMerahValue.textContent = score.red;
+        scoreBiruValue.textContent = scoreBiru;
+        scoreMerahValue.textContent = scoreMerah;
+    
+        // Mengirim skor biru ke Firebase Realtime Database
+        database.ref("score_biru").set(scoreBiru);
+    
+        // Mengirim skor merah ke Firebase Realtime Database
+        database.ref("score_merah").set(scoreMerah);
       });
     }
 
