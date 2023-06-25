@@ -44,7 +44,7 @@ Please note that using devices with different aspect ratios may result in misali
 ### Screenshots
 
 ![Screenshot 1](img/ss1.jpg)
-*Screenshot of the website showing opponent robot positions and pole statuses during ABU Robocon 2023.*
+*Screenshot of the website showing opponent robot positions and pole statuses (red box is RR and blue box is ER).*
 
 ### Contribution
 
